@@ -1,7 +1,10 @@
 package com.erikamarchi.andromeda.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component
 public class NomeAleatorio {
 	public String criaNomeAleatorio() {
 

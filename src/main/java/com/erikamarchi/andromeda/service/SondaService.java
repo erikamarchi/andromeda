@@ -1,44 +1,48 @@
 package com.erikamarchi.andromeda.service;
 
-import com.erikamarchi.andromeda.dao.PlanetaDao;
 import com.erikamarchi.andromeda.dao.SondaDao;
-import com.erikamarchi.andromeda.model.AcaoMovimentacao;
+import com.erikamarchi.andromeda.model.ComandoMovimentacao;
 import com.erikamarchi.andromeda.model.Planeta;
 import com.erikamarchi.andromeda.model.Sonda;
 import com.erikamarchi.andromeda.model.SondaEmOrbita;
 import org.springframework.stereotype.Service;
 
+import java.nio.channels.FileChannel;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class SondaService {
 
-    private PlanetaDao planetaDao;
     private SondaDao sondaDao;
+    private PlanetaService planetaService;
 
-    public SondaService(PlanetaDao planetaDao, SondaDao sondaDao) {
-        this.planetaDao = planetaDao;
+    public SondaService(SondaDao sondaDao, PlanetaService planetaService) {
         this.sondaDao = sondaDao;
+        this.planetaService = planetaService;
     }
 
-    public Sonda pousar (Integer idPlaneta, SondaEmOrbita sondaEmOrbita){
+    public Sonda pousar(Integer idPlaneta, SondaEmOrbita sondaEmOrbita) {
         //TODO Validar se pode pode pousar na coordenada recebida
+        Planeta planeta = planetaService.getPlanetaPorID(idPlaneta);
+        return sondaDao.addSonda(sondaEmOrbita, planeta);
+    }
 
-        Planeta planeta = planetaDao.getPlanetaPorID(idPlaneta);
-        Sonda sonda = sondaDao.addSonda(sondaEmOrbita, planeta);
+    public Sonda movimentar(Integer idSonda, List<ComandoMovimentacao> comandoMovimentacoes) {
+        //TODO validar se pode realizar o movimento
+        Sonda sonda = this.sondaDao.getSondaPorId(idSonda);
 
-        planeta.addSonda(sonda);
-
-
+        for (ComandoMovimentacao comandoMovimento : comandoMovimentacoes) {
+            sonda.movimentar(comandoMovimento);
+        }
         return sonda;
     }
 
-    public void movimentar (Integer idSonda, List<AcaoMovimentacao> acoesMovimentacao){
+    public Sonda getSondaPorId(Integer idSonda) {
+        return this.sondaDao.getSondaPorId(idSonda);
+    }
 
-        Sonda sonda = this.sondaDao.getSondaPorId(idSonda);
-
-        for(AcaoMovimentacao acaoMovimento : acoesMovimentacao){
-            sonda.movimentar(acaoMovimento);
-        }
+    public Collection<Sonda> getSondasPorPlaneta(Integer idPlaneta) {
+        return this.sondaDao.getSondasPorPlaneta(idPlaneta);
     }
 }

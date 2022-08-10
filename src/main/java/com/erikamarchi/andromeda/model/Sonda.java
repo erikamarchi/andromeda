@@ -3,25 +3,29 @@ package com.erikamarchi.andromeda.model;
 public class Sonda {
 
     private Integer id;
-    public enum Sentido {
-        NORTE, SUL, LESTE, OESTE
-    }
 
-
-    private Coordenada coordenada;
-    private Sentido sentido;
-
+    private Localizacao localizacao;
     private Planeta planeta;
 
     public Sonda(Planeta planeta, Integer id, SondaEmOrbita sondaEmOrbita) {
         this.planeta = planeta;
         this.id = id;
-        this.coordenada = sondaEmOrbita.getCoordenadas();
-        this.sentido = sondaEmOrbita.getSentido();
+        this.localizacao = sondaEmOrbita.getLocalizacao();
     }
 
-    public void movimentar(AcaoMovimentacao acaoMovimento){
-        acaoMovimento.executa(this);
+    public void movimentar(ComandoMovimentacao acaoMovimento){
+        localizacao = acaoMovimento.executa(localizacao);
     }
 
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Planeta getPlaneta() {
+        return planeta;
+    }
 }

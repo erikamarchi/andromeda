@@ -1,51 +1,64 @@
 package com.erikamarchi.andromeda.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Planeta {
 
 	private String nome;
-	private int id;
-	private List<Sonda> sondas;
-	private int valorMaximoX, valorMaximoY;
+	private Integer id;
+	private Integer valorMaximoX, valorMaximoY;
 
-	public Planeta(String nome, int id, int valorMaximoX, int valorMaximoY) {
+	private Galaxia galaxia;
+
+	public Planeta(String nome, Integer id, Integer valorMaximoX, Integer valorMaximoY, Galaxia galaxia) {
 		this.nome = nome;
 		this.id = id;
 		this.valorMaximoX = valorMaximoX;
 		this.valorMaximoY = valorMaximoY;
-		
-		sondas = new ArrayList<>();
+		this.galaxia = galaxia;
 	}
 
-	public int quantidadeSondasPousadas() {
-		return this.sondas.size();
-	}
-
-	// TODO  lançar execeção de erro
-	public void addSonda(Sonda sonda) {
-		if (valorMaximoX * valorMaximoY <= this.sondas.size()) {
-			this.sondas.add(sonda);
-		}
-	}
+//	// TODO  lançar execeção de erro
+//	public void addSonda(Sonda sonda) {
+//		if (valorMaximoX * valorMaximoY <= this.sondas.size()) {
+//			this.sondas.add(sonda);
+//		}
+//	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public Sonda getSonda(int id) {
-		return this.sondas.get(id);
+//	public Sonda getSonda(int id) {
+//		return this.sondas.get(id);
+//	}
+//
+//	public List<Sonda> getSondas(){
+//		return this.sondas;
+//	}
+
+	public Galaxia getGalaxia() {
+		return galaxia;
 	}
 
-	public List<Sonda> getSondas(){
-		return this.sondas;
+	public Integer getId() {
+		return id;
 	}
 
+	public Integer getValorMaximoX() {
+		return valorMaximoX;
+	}
+
+	public Integer getValorMaximoY() {
+		return valorMaximoY;
+	}
+
+	@Override
 	public String toString() {
-		return "Planeta " +
-				this.nome +
-				"\nQuantidade de sondas pousadas: " +
-				this.quantidadeSondasPousadas();
+		return "Planeta{" +
+				"nome='" + nome + '\'' +
+				", id=" + id +
+				", valorMaximoX=" + valorMaximoX +
+				", valorMaximoY=" + valorMaximoY +
+				", galaxia=" + galaxia +
+				'}';
 	}
 }

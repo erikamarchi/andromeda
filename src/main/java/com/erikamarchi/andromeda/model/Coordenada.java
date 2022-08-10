@@ -17,8 +17,20 @@ public class Coordenada {
         return y;
     }
 
-    public void atualizaCoordenada(int x,int y){
-        this.x = x;
-        this.y = y;
+    public Coordenada subir() {
+        return new Coordenada(x, y + 1);
     }
+
+    public Coordenada descer() {
+        return new Coordenada(x, y - 1);
+    }
+
+    public Coordenada deslocarParaEsquerda() {
+        return new Coordenada(x - 1, y);
+    }
+
+    public Coordenada deslocarParaDireita() {
+        return new Coordenada(x + 1, y);
+    }
+
 }
