@@ -2,27 +2,25 @@ package com.erikamarchi.andromeda.model;
 
 public enum ComandoMovimentacao {
 
-    R(){
+    R() {
         @Override
-        Localizacao executa(Localizacao localizacao) {
-            Sentido novoSentido = localizacao.rotacionarParaDireita();
-            return new Localizacao(localizacao.getCoordenada(),novoSentido);
+        public void executa(Sonda sonda) {
+            sonda.rotacionarParaDireita();
         }
     },
-    L(){
+    L() {
         @Override
-        Localizacao executa(Localizacao localizacao) {
-            Sentido novoSentido = localizacao.rotacionarParaEsquerda();
-            return new Localizacao(localizacao.getCoordenada(), novoSentido);
+        public void executa(Sonda sonda) {
+            sonda.rotacionarParaEsquerda();
         }
     },
-    M(){
+    M() {
         @Override
-        Localizacao executa(Localizacao localizacao) {
-            Coordenada novaCoordenada = localizacao.recalcularProximaCoordenada();
-            return new Localizacao(novaCoordenada, localizacao.getSentido());
+        public void executa(Sonda sonda) {
+            sonda.mover();
         }
     },
     ;
-    abstract Localizacao executa(Localizacao localizacao);
+
+    public abstract void executa(Sonda sonda);
 }

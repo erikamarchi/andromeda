@@ -26,6 +26,7 @@ public class GalaxiaController {
                 .stream().map(g -> new GalaxiaDto(g))
                 .toList();
     }
+
     @GetMapping(value = "/{nomeGalaxia}")
     public GalaxiaDto getGalaxia(@PathVariable("nomeGalaxia") String nomeGalaxia) {
         Galaxia galaxia = galaxiaService.getGalaxiaPorNome(nomeGalaxia);

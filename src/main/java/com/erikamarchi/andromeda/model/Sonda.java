@@ -7,14 +7,24 @@ public class Sonda {
     private Localizacao localizacao;
     private Planeta planeta;
 
-    public Sonda(Planeta planeta, Integer id, SondaEmOrbita sondaEmOrbita) {
+    Sonda(Planeta planeta, Integer id, SondaEmOrbita sondaEmOrbita) {
         this.planeta = planeta;
         this.id = id;
         this.localizacao = sondaEmOrbita.getLocalizacao();
     }
 
-    public void movimentar(ComandoMovimentacao acaoMovimento){
-        localizacao = acaoMovimento.executa(localizacao);
+    public void mover() {
+        Localizacao proximaLocalizacao = localizacao.recalcularProximaCoordenada();
+        planeta.validarCoordenadaDisponivel(proximaLocalizacao.getCoordenada());
+        this.localizacao = proximaLocalizacao;
+    }
+
+    public void rotacionarParaEsquerda() {
+        this.localizacao = localizacao.rotacionarParaEsquerda();
+    }
+
+    public void rotacionarParaDireita() {
+        this.localizacao = localizacao.rotacionarParaDireita();
     }
 
     public Localizacao getLocalizacao() {
@@ -27,5 +37,13 @@ public class Sonda {
 
     public Planeta getPlaneta() {
         return planeta;
+    }
+
+    public Boolean estaNaCoordenada(Coordenada coordenada) {
+        return this.localizacao.getCoordenada().equals(coordenada);
+    }
+
+    public Coordenada getCoordenada() {
+        return this.localizacao.getCoordenada();
     }
 }

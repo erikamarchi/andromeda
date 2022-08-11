@@ -17,15 +17,15 @@ public class Localizacao {
         return sentido;
     }
 
-    public Coordenada recalcularProximaCoordenada(){
-        return sentido.recalcularProximaCoordenada(coordenada);
+    public Localizacao recalcularProximaCoordenada() {
+        return new Localizacao(sentido.recalcularProximaCoordenada(coordenada), sentido);
     }
 
-    public Sentido rotacionarParaEsquerda(){
-        return sentido.rotacionarEsquerda();
+    public Localizacao rotacionarParaEsquerda() {
+        return new Localizacao(coordenada, sentido.rotacionarEsquerda());
     }
 
-    public Sentido rotacionarParaDireita(){
-        return sentido.rotacionarDireita();
+    public Localizacao rotacionarParaDireita() {
+        return new Localizacao(coordenada, sentido.rotacionarDireita());
     }
 }
