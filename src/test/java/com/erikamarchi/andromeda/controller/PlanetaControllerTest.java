@@ -36,4 +36,12 @@ class PlanetaControllerTest {
         ;
     }
 
+    @Test
+    void quandoPergarPlanetaInexistenteDeveriaDarNotFound() throws Exception {
+        mockMvc
+                .perform(get("/galaxias/andromeda/planetas/500"))
+                .andExpect(status().isNotFound());
+        ;
+    }
+
 }

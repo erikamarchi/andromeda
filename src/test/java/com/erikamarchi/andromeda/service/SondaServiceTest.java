@@ -8,13 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class SondaServiceTest {
 
-    private Planeta planeta;
+    private Optional<Planeta> planeta;
 
     private PlanetaService planetaService = mock(PlanetaService.class);
     private SondaService subject;
@@ -23,7 +24,7 @@ class SondaServiceTest {
     void setup() {
         subject = new SondaService(planetaService);
 
-        planeta = mock(Planeta.class);
+        planeta = Optional.of(mock(Planeta.class));
         when(planetaService.getPlanetaPorID(1)).thenReturn(planeta);
     }
 
@@ -33,7 +34,7 @@ class SondaServiceTest {
 
         subject.pousar(1, sondaEmOrbita);
 
-        verify(sondaEmOrbita, only()).pousar(planeta);
+        verify(sondaEmOrbita, only()).pousar(planeta.get());
     }
 
     @Test
@@ -42,7 +43,7 @@ class SondaServiceTest {
         ComandoMovimentacao comandoMover = ComandoMovimentacao.M;
         List<ComandoMovimentacao> comandos = List.of(comandoMover);
 
-        when(planeta.getSondaPorId(2)).thenReturn(sonda);
+        when(planeta.get().getSondaPorId(2)).thenReturn(sonda);
 
         Sonda resposta = subject.movimentar(1, 2, comandos);
 

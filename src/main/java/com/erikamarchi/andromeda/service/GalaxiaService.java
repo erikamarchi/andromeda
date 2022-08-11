@@ -5,6 +5,7 @@ import com.erikamarchi.andromeda.model.Galaxia;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class GalaxiaService {
@@ -15,7 +16,7 @@ public class GalaxiaService {
         this.galaxiaDao = galaxiaDao;
     }
 
-    public Galaxia getGalaxiaPorNome(String nome) {
+    public Optional<Galaxia> getGalaxiaPorNome(String nome) {
         return galaxiaDao.getGalaxiaPorNome(nome);
     }
 

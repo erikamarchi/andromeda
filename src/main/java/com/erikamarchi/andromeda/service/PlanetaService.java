@@ -6,6 +6,7 @@ import com.erikamarchi.andromeda.model.Planeta;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlanetaService {
@@ -20,7 +21,7 @@ public class PlanetaService {
         return this.planetaDao.add(novoPlaneta);
     }
 
-    public Planeta getPlanetaPorID(Integer id) {
+    public Optional<Planeta> getPlanetaPorID(Integer id) {
         return planetaDao.getPlanetaPorID(id);
     }
 

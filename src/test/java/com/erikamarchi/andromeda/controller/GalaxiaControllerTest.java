@@ -36,4 +36,12 @@ class GalaxiaControllerTest {
         ;
     }
 
+    @Test
+    void quandoPergarGalaxiaInexistenteDeveriaDarNotFound() throws Exception {
+        mockMvc
+                .perform(get("/galaxias/vialactea"))
+                .andExpect(status().isNotFound());
+        ;
+    }
+
 }

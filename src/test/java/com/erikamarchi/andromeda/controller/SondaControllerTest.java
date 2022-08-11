@@ -102,4 +102,12 @@ class SondaControllerTest {
         ;
     }
 
+    @Test
+    void quandoPergarSondaInexistenteDeveriaDarNotFound() throws Exception {
+        mockMvc
+                .perform(get("/galaxias/andromeda/planetas/0/sondas/550"))
+                .andExpect(status().isNotFound());
+        ;
+    }
+
 }

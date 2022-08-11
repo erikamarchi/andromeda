@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class GalaxiaDao {
@@ -20,8 +21,10 @@ public class GalaxiaDao {
         galaxias.put(galaxia.getNome(), galaxia);
     }
 
-    public Galaxia getGalaxiaPorNome(String nome) {
-        return galaxias.get(nome);
+    public Optional<Galaxia> getGalaxiaPorNome(String nome) {
+        Galaxia galaxia = galaxias.get(nome);
+
+        return Optional.ofNullable(galaxia);
     }
 
     public Collection<Galaxia> getGalaxias() {

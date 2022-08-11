@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class PlanetaDao {
@@ -14,8 +15,8 @@ public class PlanetaDao {
     private Map<Integer, Planeta> planetas = new HashMap<>();
     private Integer proximoId = 0;
 
-    public Planeta getPlanetaPorID(Integer idPlaneta) {
-        return planetas.get(idPlaneta);
+    public Optional<Planeta> getPlanetaPorID(Integer idPlaneta) {
+        return Optional.ofNullable(planetas.get(idPlaneta));
     }
 
     public Planeta add(NovoPlaneta novoPlaneta) {

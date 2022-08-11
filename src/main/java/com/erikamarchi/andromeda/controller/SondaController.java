@@ -3,10 +3,12 @@ package com.erikamarchi.andromeda.controller;
 import com.erikamarchi.andromeda.model.ComandoMovimentacao;
 import com.erikamarchi.andromeda.model.Sonda;
 import com.erikamarchi.andromeda.service.SondaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/galaxias/{nomeGalaxia}/planetas/{idPlaneta}/sondas")
@@ -25,8 +27,12 @@ public class SondaController {
     }
 
     @GetMapping(value = "/{idSonda}")
-    public SondaDto getSonda(@PathVariable("idPlaneta") Integer idPlaneta, @PathVariable("idSonda") Integer idSonda) {
-        return new SondaDto(sondaService.getSondaPorId(idPlaneta, idSonda));
+    public ResponseEntity<SondaDto> getSonda(@PathVariable("idPlaneta") Integer idPlaneta, @PathVariable("idSonda") Integer idSonda) {
+        Optional<Sonda> sonda = sondaService.getSondaPorId(idPlaneta, idSonda);
+        return sonda
+                .map(s -> new SondaDto(s))
+                .map(dto -> ResponseEntity.ok(dto))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
