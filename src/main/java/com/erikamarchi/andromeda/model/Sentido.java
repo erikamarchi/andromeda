@@ -1,7 +1,5 @@
 package com.erikamarchi.andromeda.model;
 
-import java.util.Arrays;
-
 public enum Sentido {
     NORTE(Math.toRadians(90)) {
         @Override

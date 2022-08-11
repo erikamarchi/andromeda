@@ -1,17 +1,16 @@
 package com.erikamarchi.andromeda.model;
 
 import com.erikamarchi.andromeda.exception.CoordenadaIndisponivelException;
-import com.erikamarchi.andromeda.service.ValidadorCoordenada;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class PlanetaTest {
 
     private Galaxia galaxia = mock(Galaxia.class);
-    private ValidadorCoordenada validadorCoordenada = mock(ValidadorCoordenada.class);
     private Planeta subject;
 
     @BeforeEach
@@ -20,39 +19,38 @@ class PlanetaTest {
     }
 
     @Test
-    void deveriaPermitirACoordenadaQuandoAPosicaoEstaLivreEDentroDosLimites() {
+    void deveriaPermitirAdicionarNumLocalDisponivel() {
+        Coordenada coordenada = new Coordenada(1, 2);
+        subject.validarCoordenadaDisponivel(coordenada);
+    }
+
+    @Test
+    void naoDeveriaPermitirAdicionarNumLocalOcupado() {
         Coordenada coordenada = new Coordenada(1, 5);
-        when(validadorCoordenada.validaCoordenadaOcupada(10,coordenada)).thenReturn(false);
+        Sonda sonda = mock(Sonda.class);
+        when(sonda.getCoordenada()).thenReturn(coordenada);
+        when(sonda.estaNaCoordenada(coordenada)).thenReturn(true);
 
-        subject.validarCoordenadaDisponivel(validadorCoordenada, coordenada);
+        // ocupar o local
+        subject.addSonda(sonda);
 
-        verify(validadorCoordenada, only()).validaCoordenadaOcupada(10, coordenada);
+        assertThatThrownBy(() -> subject.addSonda(sonda))
+                .isInstanceOf(CoordenadaIndisponivelException.class);
     }
 
     @Test
-    void naoDeveriaPermitirACoordenadaForaDoLimiteX() {
+    void aCoordenadaDeveSerIndisponivelQuandoEstiverForaDoLimiteX() {
         Coordenada coordenada = new Coordenada(2, 5);
-        when(validadorCoordenada.validaCoordenadaOcupada(10,coordenada)).thenReturn(false);
 
-        assertThatThrownBy(() -> subject.validarCoordenadaDisponivel(validadorCoordenada, coordenada))
+        assertThatThrownBy(() -> subject.validarCoordenadaDisponivel(coordenada))
                 .isInstanceOf(CoordenadaIndisponivelException.class);
     }
 
     @Test
-    void naoDeveriaPermitirACoordenadaForaDoLimiteY() {
-        Coordenada coordenada = new Coordenada(0, 6);
-        when(validadorCoordenada.validaCoordenadaOcupada(10,coordenada)).thenReturn(false);
+    void aCoordenadaDeveSerIndisponivelQuandoEstiverForaDoLimitey() {
+        Coordenada coordenada = new Coordenada(1, 6);
 
-        assertThatThrownBy(() -> subject.validarCoordenadaDisponivel(validadorCoordenada, coordenada))
-                .isInstanceOf(CoordenadaIndisponivelException.class);
-    }
-
-    @Test
-    void naoDeveriaPermitirACoordenadaQuandoNaoEstiverDisponivel() {
-        Coordenada coordenada = new Coordenada(0, 1);
-        when(validadorCoordenada.validaCoordenadaOcupada(10,coordenada)).thenReturn(true);
-
-        assertThatThrownBy(() -> subject.validarCoordenadaDisponivel(validadorCoordenada, coordenada))
+        assertThatThrownBy(() -> subject.validarCoordenadaDisponivel(coordenada))
                 .isInstanceOf(CoordenadaIndisponivelException.class);
     }
 

@@ -1,6 +1,5 @@
 package com.erikamarchi.andromeda.model;
 
-import com.erikamarchi.andromeda.service.ValidadorCoordenada;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
@@ -12,17 +11,18 @@ class SondaTest {
         Planeta planeta = mock(Planeta.class);
         SondaEmOrbita sondaEmOrbita = mock(SondaEmOrbita.class);
         Localizacao localizacaoAtual = mock(Localizacao.class);
-        ValidadorCoordenada validadorCoordenada = mock(ValidadorCoordenada.class);
+        Localizacao proximaLocalizacao = mock(Localizacao.class);
         Coordenada proximaCoordenada = mock(Coordenada.class);
 
-        when(localizacaoAtual.recalcularProximaCoordenada()).thenReturn(proximaCoordenada);
         when(sondaEmOrbita.getLocalizacao()).thenReturn(localizacaoAtual);
+        when(localizacaoAtual.recalcularProximaCoordenada()).thenReturn(proximaLocalizacao);
+        when(proximaLocalizacao.getCoordenada()).thenReturn(proximaCoordenada);
 
         Sonda subject = new Sonda(planeta, 1, sondaEmOrbita);
 
-        subject.movimentar(ComandoMovimentacao.M, validadorCoordenada);
+        subject.mover();
 
-        verify(planeta, only()).validarCoordenadaDisponivel(validadorCoordenada, proximaCoordenada);
+        verify(planeta, only()).validarCoordenadaDisponivel(proximaCoordenada);
     }
 
 }

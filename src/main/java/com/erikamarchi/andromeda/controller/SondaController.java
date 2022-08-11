@@ -3,7 +3,6 @@ package com.erikamarchi.andromeda.controller;
 import com.erikamarchi.andromeda.model.ComandoMovimentacao;
 import com.erikamarchi.andromeda.model.Sonda;
 import com.erikamarchi.andromeda.service.SondaService;
-import com.erikamarchi.andromeda.service.ValidadorCoordenada;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -26,8 +25,8 @@ public class SondaController {
     }
 
     @GetMapping(value = "/{idSonda}")
-    public SondaDto getSonda(@PathVariable("idSonda") Integer idSonda) {
-        return new SondaDto(sondaService.getSondaPorId(idSonda));
+    public SondaDto getSonda(@PathVariable("idPlaneta") Integer idPlaneta, @PathVariable("idSonda") Integer idSonda) {
+        return new SondaDto(sondaService.getSondaPorId(idPlaneta, idSonda));
     }
 
     @GetMapping
@@ -40,10 +39,10 @@ public class SondaController {
     }
 
     @PostMapping(value = "/{idSonda}/comandos")
-    public SondaDto movimentar(@PathVariable("idSonda") Integer idSonda, @RequestBody ComandosMovimentacaoDto comandosMovimentacaoDto) {
+    public SondaDto movimentar(@PathVariable("idPlaneta") Integer idPlaneta, @PathVariable("idSonda") Integer idSonda, @RequestBody ComandosMovimentacaoDto comandosMovimentacaoDto) {
         List<ComandoMovimentacao> comandoMovimentacoes = comandosMovimentacaoDto.criarComandos();
 
-        Sonda sondaMovimentada = sondaService.movimentar(idSonda, comandoMovimentacoes);
+        Sonda sondaMovimentada = sondaService.movimentar(idPlaneta, idSonda, comandoMovimentacoes);
         return new SondaDto(sondaMovimentada);
     }
 

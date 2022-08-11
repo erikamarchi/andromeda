@@ -1,10 +1,8 @@
 package com.erikamarchi.andromeda.model;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -48,6 +46,11 @@ class SentidoTest {
     }
 
     @Test
+    void quandoNorteRotacionarEsquerdaDeveriaSerOeste() {
+        Sentido resposta = Sentido.NORTE.rotacionarEsquerda();
+
+        assertEquals(Sentido.OESTE, resposta);
+    } @Test
     void quandoOesteRotacionarEsquerdaDeveriaSerSul() {
         Sentido resposta = Sentido.OESTE.rotacionarEsquerda();
 

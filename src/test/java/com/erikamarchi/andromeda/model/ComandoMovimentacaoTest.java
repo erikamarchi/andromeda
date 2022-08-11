@@ -1,48 +1,35 @@
 package com.erikamarchi.andromeda.model;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ComandoMovimentacaoTest {
 
     @Test
     void quandoComandoForRVerificaRotacionaDireita() {
-        Localizacao localizacao = mock(Localizacao.class);
+        Sonda sonda = mock(Sonda.class);
 
-        when(localizacao.rotacionarParaDireita()).thenReturn(Sentido.NORTE);
+        ComandoMovimentacao.R.executa(sonda);
 
-        Localizacao resposta = ComandoMovimentacao.R.executa(localizacao);
-
-        assertNotNull(resposta);
-        assertEquals(Sentido.NORTE, resposta.getSentido());
+        verify(sonda, only()).rotacionarParaDireita();
     }
 
     @Test
     void quandoComandoForLVerificaRotacionaEsquerda() {
-        Localizacao localizacao = mock(Localizacao.class);
+        Sonda sonda = mock(Sonda.class);
 
-        when(localizacao.rotacionarParaEsquerda()).thenReturn(Sentido.NORTE);
+        ComandoMovimentacao.L.executa(sonda);
 
-        Localizacao resposta = ComandoMovimentacao.L.executa(localizacao);
-
-        assertNotNull(resposta);
-        assertEquals(Sentido.NORTE, resposta.getSentido());
+        verify(sonda, only()).rotacionarParaEsquerda();
     }
 
     @Test
     void quandoComandoForMRecalculaProximaCoordenada() {
-        Localizacao localizacao = mock(Localizacao.class);
-        Coordenada coordenada = mock(Coordenada.class);
+        Sonda sonda = mock(Sonda.class);
 
-        when(localizacao.recalcularProximaCoordenada()).thenReturn(coordenada);
+        ComandoMovimentacao.M.executa(sonda);
 
-        Localizacao resposta = ComandoMovimentacao.M.executa(localizacao);
-
-        assertNotNull(resposta);
-        assertEquals(coordenada, resposta.getCoordenada());
+        verify(sonda, only()).mover();
     }
 }

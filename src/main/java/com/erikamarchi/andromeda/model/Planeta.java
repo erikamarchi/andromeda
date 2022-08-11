@@ -1,7 +1,11 @@
 package com.erikamarchi.andromeda.model;
 
 import com.erikamarchi.andromeda.exception.CoordenadaIndisponivelException;
-import com.erikamarchi.andromeda.service.ValidadorCoordenada;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class Planeta {
 
@@ -11,12 +15,19 @@ public class Planeta {
 
     private Galaxia galaxia;
 
+    private Map<Integer, Sonda> sondas;
+
     public Planeta(String nome, Integer id, Integer valorMaximoX, Integer valorMaximoY, Galaxia galaxia) {
         this.nome = nome;
         this.id = id;
         this.valorMaximoX = valorMaximoX;
         this.valorMaximoY = valorMaximoY;
         this.galaxia = galaxia;
+        this.sondas = new HashMap<>();
+    }
+
+    public Sonda getSondaPorId(Integer idSonda) {
+        return sondas.get(idSonda);
     }
 
     public String getNome() {
@@ -50,11 +61,28 @@ public class Planeta {
                 '}';
     }
 
-    public void validarCoordenadaDisponivel(ValidadorCoordenada validadorCoordenada, Coordenada coordenada) {
+    public Optional<Sonda> getSondaDoPlanetaPorCoordenada(Coordenada coordenada) {
+        return sondas
+                .values()
+                .stream()
+                .filter(s -> s.estaNaCoordenada(coordenada))
+                .findAny();
+    }
+
+    void validarCoordenadaDisponivel(Coordenada coordenada) {
         if (coordenada.getX() > valorMaximoX ||
                 coordenada.getY() > valorMaximoY ||
-                validadorCoordenada.validaCoordenadaOcupada(id, coordenada)) {
+                getSondaDoPlanetaPorCoordenada(coordenada).isPresent()) {
             throw new CoordenadaIndisponivelException(coordenada);
         }
+    }
+
+    public Collection<Sonda> getSondas() {
+        return sondas.values();
+    }
+
+    public void addSonda(Sonda sonda) {
+        validarCoordenadaDisponivel(sonda.getCoordenada());
+        this.sondas.put(sonda.getId(), sonda);
     }
 }
