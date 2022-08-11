@@ -1,5 +1,6 @@
 package com.erikamarchi.andromeda.service;
 
+import com.erikamarchi.andromeda.exception.PousoException;
 import com.erikamarchi.andromeda.model.ComandoMovimentacao;
 import com.erikamarchi.andromeda.model.Planeta;
 import com.erikamarchi.andromeda.model.Sonda;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -39,7 +41,7 @@ class SondaServiceTest {
 
     @Test
     void deveriaMovimentarASonda() {
-        Sonda sonda = mock(Sonda.class);
+        Optional<Sonda> sonda = Optional.of(mock(Sonda.class));
         ComandoMovimentacao comandoMover = ComandoMovimentacao.M;
         List<ComandoMovimentacao> comandos = List.of(comandoMover);
 
@@ -47,8 +49,20 @@ class SondaServiceTest {
 
         Sonda resposta = subject.movimentar(1, 2, comandos);
 
-        verify(sonda, only()).mover();
-        assertEquals(sonda, resposta);
+        verify(sonda.get(), only()).mover();
+        assertEquals(sonda.get(), resposta);
+    }
+
+    @Test
+    void naoDeveriaMovimentarQuandoNaoEncontrarASondaOuPlaneta() {
+        ComandoMovimentacao comandoMover = ComandoMovimentacao.M;
+        List<ComandoMovimentacao> comandos = List.of(comandoMover);
+
+        when(planetaService.getPlanetaPorID(42)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> subject.movimentar(42, 2, comandos))
+                .isInstanceOf(PousoException.class)
+                .hasMessage("Oh não! Esse planeta 42 não existe ou a sonda 2 não existe");
     }
 
 }

@@ -26,8 +26,8 @@ public class Planeta {
         this.sondas = new HashMap<>();
     }
 
-    public Sonda getSondaPorId(Integer idSonda) {
-        return sondas.get(idSonda);
+    public Optional<Sonda> getSondaPorId(Integer idSonda) {
+        return Optional.ofNullable(sondas.get(idSonda));
     }
 
     public String getNome() {

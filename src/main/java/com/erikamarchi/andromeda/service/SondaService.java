@@ -42,7 +42,7 @@ public class SondaService {
     public Optional<Sonda> getSondaPorId(Integer idPlaneta, Integer idSonda) {
         return planetaService
                 .getPlanetaPorID(idPlaneta)
-                .map(p -> p.getSondaPorId(idSonda));
+                .flatMap(p -> p.getSondaPorId(idSonda));
     }
 
     public Collection<Sonda> getSondasPorPlaneta(Integer idPlaneta) {
