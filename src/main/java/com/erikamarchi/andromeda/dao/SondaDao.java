@@ -1,14 +1,12 @@
 package com.erikamarchi.andromeda.dao;
 
+import com.erikamarchi.andromeda.model.Coordenada;
 import com.erikamarchi.andromeda.model.Planeta;
 import com.erikamarchi.andromeda.model.Sonda;
 import com.erikamarchi.andromeda.model.SondaEmOrbita;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class SondaDao {
@@ -42,5 +40,12 @@ public class SondaDao {
                 .stream()
                 .filter(s -> s.getPlaneta().getGalaxia().getNome().equals(nomeDaGalaxia))
                 .toList();
+    }
+
+    public Optional<Sonda> getSondaDoPlanetaPorCoordenada(Integer idPlaneta, Coordenada coordenada){
+        Collection<Sonda> sondas = getSondasPorPlaneta(idPlaneta);
+        return sondas.stream()
+                .filter(s -> s.estaNaCoordenada(coordenada))
+                .findAny();
     }
 }

@@ -7,7 +7,6 @@ import com.erikamarchi.andromeda.model.Sonda;
 import com.erikamarchi.andromeda.model.SondaEmOrbita;
 import org.springframework.stereotype.Service;
 
-import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,23 +16,25 @@ public class SondaService {
     private SondaDao sondaDao;
     private PlanetaService planetaService;
 
-    public SondaService(SondaDao sondaDao, PlanetaService planetaService) {
+    private ValidadorCoordenada validadorCoordenada;
+
+    public SondaService(SondaDao sondaDao, PlanetaService planetaService, ValidadorCoordenada validadorCoordenada) {
         this.sondaDao = sondaDao;
         this.planetaService = planetaService;
+        this.validadorCoordenada = validadorCoordenada;
     }
 
     public Sonda pousar(Integer idPlaneta, SondaEmOrbita sondaEmOrbita) {
-        //TODO Validar se pode pode pousar na coordenada recebida
         Planeta planeta = planetaService.getPlanetaPorID(idPlaneta);
+        planeta.validarCoordenadaDisponivel(validadorCoordenada, sondaEmOrbita.getCoordenada());
         return sondaDao.addSonda(sondaEmOrbita, planeta);
     }
 
     public Sonda movimentar(Integer idSonda, List<ComandoMovimentacao> comandoMovimentacoes) {
-        //TODO validar se pode realizar o movimento
         Sonda sonda = this.sondaDao.getSondaPorId(idSonda);
 
         for (ComandoMovimentacao comandoMovimento : comandoMovimentacoes) {
-            sonda.movimentar(comandoMovimento);
+            sonda.movimentar(comandoMovimento, validadorCoordenada);
         }
         return sonda;
     }

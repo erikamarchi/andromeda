@@ -38,7 +38,7 @@ public enum Sentido {
             return Sentido.OESTE;
         }
     },
-    LESTE(0.0) {
+    LESTE(Math.toRadians(0.0)) {
         @Override
         public Coordenada recalcularProximaCoordenada(Coordenada coordenada) {
             return coordenada.deslocarParaDireita();
@@ -88,21 +88,4 @@ public enum Sentido {
 
     public abstract Sentido rotacionarDireita();
 
-    public Sentido girarADireita() {
-        double anguloPegar = this.angulo + ANGULO_MOVIMENTACAO;
-        return pegaSentidoAngulo(anguloPegar);
-    }
-
-    public Sentido girarAEsquerda() {
-        double anguloPegar = this.angulo - ANGULO_MOVIMENTACAO;
-        return pegaSentidoAngulo(anguloPegar);
-    }
-
-    private Sentido pegaSentidoAngulo(Double anguloPegar) {
-        return Arrays
-                .stream(values())
-                .filter(e -> e.angulo.equals(anguloPegar))
-                .findAny()
-                .orElseThrow(() -> new RuntimeException("Angulo nao encontrado"));
-    }
 }

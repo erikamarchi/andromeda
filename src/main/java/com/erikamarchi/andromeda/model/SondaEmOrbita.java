@@ -13,4 +13,8 @@ public class SondaEmOrbita {
         return localizacao;
     }
 
+    public Coordenada getCoordenada (){
+        return localizacao.getCoordenada();
+    }
+
 }

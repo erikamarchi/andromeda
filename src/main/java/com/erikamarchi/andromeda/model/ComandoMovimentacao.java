@@ -2,21 +2,21 @@ package com.erikamarchi.andromeda.model;
 
 public enum ComandoMovimentacao {
 
-    R(){
+    R() {
         @Override
         Localizacao executa(Localizacao localizacao) {
             Sentido novoSentido = localizacao.rotacionarParaDireita();
-            return new Localizacao(localizacao.getCoordenada(),novoSentido);
+            return new Localizacao(localizacao.getCoordenada(), novoSentido);
         }
     },
-    L(){
+    L() {
         @Override
         Localizacao executa(Localizacao localizacao) {
             Sentido novoSentido = localizacao.rotacionarParaEsquerda();
             return new Localizacao(localizacao.getCoordenada(), novoSentido);
         }
     },
-    M(){
+    M() {
         @Override
         Localizacao executa(Localizacao localizacao) {
             Coordenada novaCoordenada = localizacao.recalcularProximaCoordenada();
@@ -24,5 +24,6 @@ public enum ComandoMovimentacao {
         }
     },
     ;
+
     abstract Localizacao executa(Localizacao localizacao);
 }
