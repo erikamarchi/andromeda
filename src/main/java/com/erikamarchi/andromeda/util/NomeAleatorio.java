@@ -6,18 +6,18 @@ import java.util.Random;
 
 @Component
 public class NomeAleatorio {
-	public String criaNomeAleatorio() {
+    public String criaNomeAleatorio() {
 
-		Random r = new Random();
+        Random r = new Random();
 
-		StringBuilder nome = new StringBuilder();
-		String letras = "ABCDEFGHWXYZ";
-		nome.append(letras.charAt(r.nextInt(0, 11)));
-		nome.append(letras.charAt(r.nextInt(0, 11)));
-		nome.append(letras.charAt(r.nextInt(0, 11)));
-		nome.append(r.nextInt(1000));
+        StringBuilder nome = new StringBuilder();
+        String letras = "ABCDEFGHWXYZ";
+        nome.append(letras.charAt(r.nextInt(0, 11)));
+        nome.append(letras.charAt(r.nextInt(0, 11)));
+        nome.append(letras.charAt(r.nextInt(0, 11)));
+        nome.append(r.nextInt(1000));
 
-		return nome.toString();
-	}
+        return nome.toString();
+    }
 
 }

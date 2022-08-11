@@ -29,10 +29,10 @@ class ComandosMovimentacaoDto {
             try {
                 comandos.add(ComandoMovimentacao.valueOf(c));
             } catch (IllegalArgumentException e) {
-                logger.error("Comando inválido",e);
+                logger.error("Comando inválido", e);
 
                 throw new ComandoInvalidoException(
-                        String.format("Ah não! O comando %s é inválido :(",c)
+                        String.format("Ah não! O comando %s é inválido :(", c)
                 );
             }
         }

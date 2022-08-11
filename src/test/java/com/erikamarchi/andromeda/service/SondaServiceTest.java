@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class SondaServiceTest {
@@ -44,7 +44,7 @@ class SondaServiceTest {
 
         when(planeta.getSondaPorId(2)).thenReturn(sonda);
 
-        Sonda resposta = subject.movimentar(1,2, comandos);
+        Sonda resposta = subject.movimentar(1, 2, comandos);
 
         verify(sonda, only()).mover();
         assertEquals(sonda, resposta);

@@ -10,12 +10,12 @@ public class SondaEmOrbita {
         this.localizacao = localizacao;
     }
 
-    public Localizacao getLocalizacao(){
+    public Localizacao getLocalizacao() {
 
         return localizacao;
     }
 
-    public Coordenada getCoordenada (){
+    public Coordenada getCoordenada() {
         return localizacao.getCoordenada();
     }
 

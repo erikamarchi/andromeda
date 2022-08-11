@@ -50,7 +50,9 @@ class SentidoTest {
         Sentido resposta = Sentido.NORTE.rotacionarEsquerda();
 
         assertEquals(Sentido.OESTE, resposta);
-    } @Test
+    }
+
+    @Test
     void quandoOesteRotacionarEsquerdaDeveriaSerSul() {
         Sentido resposta = Sentido.OESTE.rotacionarEsquerda();
 
